@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-gallery-bg text-gallery-text antialiased;
+    font-family: 'Corben', Georgia, serif;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Dark mode - pure black background */
+  .dark body {
+    @apply bg-black text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-light tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gallery-bg;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gallery-border rounded-full;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-gray-800 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gallery-text-secondary;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-700;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-gallery-accent/20 text-gallery-text;
+  }
+
+  .dark ::selection {
+    @apply bg-gallery-accent/30 text-white;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply min-h-screen w-full flex flex-col items-center justify-center px-6 py-20;
+  }
+
+  .placard {
+    @apply max-w-lg text-gallery-text-secondary leading-relaxed;
+  }
+
+  .btn-primary {
+    @apply px-8 py-3 bg-gallery-text text-white font-body text-sm tracking-wide 
+           transition-all duration-200 hover:bg-gallery-accent focus:outline-none 
+           focus:ring-2 focus:ring-gallery-accent focus:ring-offset-2;
+  }
+
+  .dark .btn-primary {
+    @apply bg-white text-black hover:bg-gallery-accent hover:text-white;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-3 border border-gallery-text text-gallery-text font-body text-sm 
+           tracking-wide transition-all duration-200 hover:bg-gallery-text hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-gallery-text focus:ring-offset-2;
+  }
+
+  .dark .btn-secondary {
+    @apply border-gray-400 text-gray-300 hover:bg-white hover:text-black;
+  }
+
+  /* Screen reader only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* Vertical writing mode for side text */
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Canvas styles */
+.canvas-container {
+  @apply w-full h-full;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  @apply absolute inset-0 flex items-center justify-center;
+  @apply bg-gallery-bg/80 backdrop-blur-sm;
+}
+
+.dark .loading-overlay {
+  @apply bg-black/80;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  @apply absolute -top-10 left-4 z-[100] px-4 py-2 bg-gallery-text text-white rounded
+         focus:top-4 transition-all duration-200;
+}
+
+.dark .skip-link {
+  @apply bg-white text-black;
+}
+
+/* Scroll indicator animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.scroll-indicator {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* Scrolling text animations */
+@keyframes scroll-up {
+  0% {
+    transform: translateY(30%);
+  }
+  100% {
+    transform: translateY(-30%);
+  }
+}
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(-30%);
+  }
+  100% {
+    transform: translateY(30%);
+  }
+}
+
+.animate-scroll-up {
+  animation: scroll-up 25s linear infinite alternate;
+}
+
+.animate-scroll-down {
+  animation: scroll-down 25s linear infinite alternate;
+}
+
+/* Sliding background lines - GPU accelerated */
+@keyframes slide-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide-line {
+  animation: slide-line linear infinite;
+  will-change: transform;
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-gallery-accent ring-offset-2;
+}
+
+.dark *:focus-visible {
+  @apply ring-offset-black;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator,
+  .animate-scroll-up,
+  .animate-scroll-down {
+    animation: none;
+  }
+}
+
+/* Smooth image loading */
+img {
+  @apply transition-opacity duration-300;
+}
+
+/* Glass morphism utility */
+.glass {
+  @apply bg-gallery-surface/80 backdrop-blur-md border border-gallery-border/50;
+}
+
+.dark .glass {
+  @apply bg-black/80 border-gray-800/50;
+}
