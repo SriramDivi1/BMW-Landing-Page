@@ -13,16 +13,8 @@ function App() {
   const [currentModelId, setCurrentModelId] = useState(models[0].id)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [zoomLevel, setZoomLevel] = useState(1) // 1 = default, range 0.5 to 1.5
-  const [modelsPreloaded, setModelsPreloaded] = useState(false)
   const currentModel = models.find(m => m.id === currentModelId) || models[0]
   const { isDarkMode, toggleDarkMode } = useDarkMode()
-
-  // Preload indicator - models are preloaded in ModelViewer.tsx
-  useEffect(() => {
-    // Give time for preloading to complete
-    const timer = setTimeout(() => setModelsPreloaded(true), 2000)
-    return () => clearTimeout(timer)
-  }, [])
 
   const handleZoomIn = useCallback(() => setZoomLevel(prev => Math.min(prev + 0.1, 1.5)), [])
   const handleZoomOut = useCallback(() => setZoomLevel(prev => Math.max(prev - 0.1, 0.5)), [])
